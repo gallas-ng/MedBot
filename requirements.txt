@@ -1,0 +1,6 @@
+streamlit 
+firebase_admin 
+google-cloud-firestore 
+streamlit-on-Hover-tabs 
+streamlit-chat 
+langchain 
