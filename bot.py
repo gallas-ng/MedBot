@@ -48,7 +48,7 @@ async def chatbot(user_name):
                     
                     if not os.path.isfile('mayo_clinic' + ".pkl"):
                         # If not, store the vectors using the storeDocEmbeds function
-                        # await storeDocEmbeds()
+                        await storeDocEmbeds()
                         print('No Docs found !!!')
                     
                     with open('mayo_clinic' + ".pkl", "rb") as f:
@@ -117,7 +117,7 @@ async def chatbot(user_name):
             qa_template = """"You are an AI conversational helpful Healthcare assistant to answer therapeutic questions based on information from a csv file.
             You are given data from a csv file and a question, you must help the user find the information they need. If they don't give enough informations about their symptoms, ask to tell more about. 
             Only give responses for information you know about. Don't try to make up an answer.
-            Your answers should be short,friendly, in the same language.
+            Your answers should be short,friendly, in french language.
             question: {question}
             =========
             {context}

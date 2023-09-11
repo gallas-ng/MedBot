@@ -7,6 +7,7 @@ from bot import chatbot
 from google.cloud import firestore
 from firebase_admin import auth
 from google.oauth2 import service_account
+from google.cloud.firestore import FieldFilter
 
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -105,19 +106,12 @@ def app():
 
             st.write('Historique des conversations')
 
-            def get_user_chats(email):
-                chats_ref = db.collection('chat_history').where('user', '==', email).order_by('timestamp')
-                chat_history = []
-                for chat in chats_ref.stream():
-                    chat_history = chat.to_dict()
-                return chat_history
-            
             for user in list_users.users:
-                chats = get_user_chats(user)
+                chats = get_user_chats(str(user.email))
                 with st.expander(f"Historique de {user.uid}"):
                     for i,chat in enumerate(chats):
-                        st.text(f"Requete : {chat['request']}")
-                        st.text(f"Reponse : {chat['response']}")
+                        st.text(f"Requete {i}: {chat['request']}")
+                        st.text(f"Reponse {i}: {chat['response']}")
                         
         else:
             asyncio.run(chatbot(user_name= email))
@@ -133,3 +127,9 @@ def send_feedback(message, user):
         "user": user 
             })
 
+def get_user_chats(email):
+    chats_ref = db.collection('chat_history').where(filter=FieldFilter("user", "==", email))
+    chat_history = []
+    for chat in chats_ref.stream():
+        chat_history.append(chat.to_dict())
+    return chat_history

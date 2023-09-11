@@ -1,67 +1,46 @@
-section[data-testid='stSidebar'] {
-    background-color:#FFF;
-    min-width:unset !important;
-    width: unset !important;
-    flex-shrink: unset !important;
-
-    .tab { background-color:#FFF; }
-    .tab-container{ background-color: #FFF; }
-
+/* Styles du sidebar */
+section[data-testid='stSidebar'] > div {
+    width: 75px; /* Largeur minimale du sidebar */
+    position: relative;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #ECF5EC;
+    overflow-x: hidden;
+    transition: 0.5s ease;
+    padding-top: 60px;
+    white-space: nowrap;
 }
 
+/* Styles pour le bouton d'ouverture du sidebar */
 button[kind="header"] {
     background-color: transparent;
     color: #55B43B;
-    font-family : sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: block;
+    margin: 10px;
 }
 
-section {
-    background-color: #FFF;
+/* Réagir au survol pour élargir le sidebar */
+section[data-testid='stSidebar'] > div:hover {
+    width: 300px; /* Largeur étendue au survol */
 }
 
-@media(hover){
-    /* header element to be removed */
+/* Masquer le bouton du header */
+header[data-testid="stHeader"] {
+    display: none;
+}
+
+/* Réglages spécifiques pour les appareils mobiles */
+@media screen and (max-width: 768px) {
+    section[data-testid='stSidebar'] > div {
+        width: 100%; /* Remplit la largeur de l'écran sur mobile */
+        padding-top: 0;
+    }
+
+    /* Afficher le bouton du header sur mobile */
     header[data-testid="stHeader"] {
-        background-color:#FFF;
-        display:none;
+        display: block;
     }
 
-    /* The navigation menu specs and size */
-    section[data-testid='stSidebar'] > div {
-        height: 100%;
-        width: 95px;
-        position: relative;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #f1eded;
-        overflow-x: hidden;
-        transition: 0.5s ease;
-        padding-top: 60px;
-        white-space: nowrap;
-    }
-
-    /* The navigation menu open and close on hover and size */
-    /* section[data-testid='stSidebar'] > div {
-    height: 100%;
-    width: 75px; /* Put some width to hover on. */
-    /* } 
-
-    /* ON HOVER */
-    section[data-testid='stSidebar'] > div:hover{
-    width: 300px;
-    }
-
-    /* The button on the streamlit navigation menu - hidden */
-    button[kind="header"] {
-        display: none;
-    }
 }
-     
-@media(max-width: 272px){
-    
-    section[data-testid='stSidebar'] > div {
-        width:15rem;
-    }
-}
- 

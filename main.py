@@ -9,7 +9,7 @@ from firebase_admin import auth
 from st_on_hover_tabs import on_hover_tabs
 from PIL import Image
 
-st.set_page_config( page_icon="💬", page_title="ChatBot-Medical")
+st.set_page_config( page_icon="💬", page_title="ChatBot-Medical", layout='centered')
 image = Image.open('Med.png')
 st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
 
@@ -18,23 +18,24 @@ with st.sidebar:
     tabs = on_hover_tabs(tabName=['Votre Bot', 'FeedBack', 'A propos'], 
                          iconName=['assistant', 'feedback', 'star'],
                          default_choice=0,
-                         styles = {'navtab': {'background-color':'#f1eded',
+                         styles = {'navtab': {'background-color':'#ECF5EC',
                                                   'color': '#818181',
-                                                  'font-size': '12px',
-                                                  'font-family' : 'sans-serif',
+                                                  'font-size': '11px',
+                                                  'font-family' : "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
                                                   'transition': '.3s',
                                                   'white-space': 'nowrap',
                                                   'text-transform': 'uppercase'},
                                     'tab' :{'background-color':'#fff'},
                                        'tabOptionsStyle': {':hover :hover': {'color': 'green',
-                                                            'cursor': 'pointer'}},
-                                       'iconStyle':{'position':'fixed',
-                                                    'left':'7.5px',
+                                                            'cursor': 'pointer'},},
+                                       'iconStyle':{'position':'absolute',
+                                                    'left':'6.5px',
                                                     'text-align': 'left',
-                                                    'color' : '#55B43B',
+                                                    'color' : '#8c8c8c',
                                        'tabStyle' : {'list-style-type': 'none',
                                                      'margin-bottom': '40px',
-                                                     'padding-left': '30px'},'background-color': '#f1eded'}})
+                                                     'padding-left': '30px'},'background-color': '#ECF5EC'}}
+                                                     )
 
 if tabs == 'Votre Bot':
     app()
@@ -53,7 +54,6 @@ elif tabs == 'FeedBack':
 
 elif tabs == 'A propos':
     about()
-
 
 if not firebase_admin._apps:
     key_dict = json.loads(st.secrets['textkey'])
