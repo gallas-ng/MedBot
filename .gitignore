@@ -157,3 +157,6 @@ cython_debug/
 config.py
 secrets.toml
 medbot-key.json
+
+.scannerwork/
+logs-gallas-ng-medbot-main-main.py-2023-09-11T17_39_26.967Z.txt

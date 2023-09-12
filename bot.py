@@ -1,3 +1,4 @@
+import datetime
 import os
 import pickle
 import streamlit as st
@@ -14,6 +15,7 @@ from langchain.document_loaders.csv_loader import CSVLoader
 from langchain.vectorstores import FAISS
 from langchain.prompts.prompt import PromptTemplate
 from google.oauth2 import service_account
+from google.cloud.firestore import FieldFilter
 
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
@@ -71,12 +73,13 @@ async def chatbot(user_name):
                     
                     return result["answer"]
         def save_chat(request, response, user):
-
+            createAt = datetime.datetime.now().strftime("%y%m%d%I%H%S")
             doc_ref = db.collection("chat_history").document()
             doc_ref.set({
                 "request": request,
                 "response": response,
-                "user" : user
+                "user" : user,
+                "createdAt" : createAt
             })
         
         with st.sidebar.expander(" 🛠️ ", expanded=False):
@@ -176,6 +179,17 @@ async def chatbot(user_name):
                     st.session_state['past'].append(user_input)
                     st.session_state['generated'].append(output)
                     save_chat(request= user_input, response= output, user = user_name)
+                
+
+                st.divider()
+                st.subheader('Mes conversations')
+                
+                chats = get_user_chats(st.session_state.useremail)
+                with st.expander(f"Historique de {st.session_state.username}"):
+                        for i,chat in enumerate(chats):
+                            st.text(f"Requete :adult: #{i}: {chat['request']}")
+                            st.text(f"Reponse :female-doctor: #{i}: {chat['response']}")
+                            st.divider()
 
 
             if st.session_state['generated']:
@@ -189,3 +203,11 @@ async def chatbot(user_name):
 
     except Exception as e:
         st.error(f"Error: {str(e)}")
+
+
+def get_user_chats(email):
+    chats_ref = db.collection('chat_history').where(filter=FieldFilter("user", "==", email)).order_by("createdAt")
+    chat_history = []
+    for chat in chats_ref.stream():
+        chat_history.append(chat.to_dict())
+    return chat_history
