@@ -187,8 +187,8 @@ async def chatbot(user_name):
                 chats = get_user_chats(st.session_state.useremail)
                 with st.expander(f"Historique de {st.session_state.username}"):
                         for i,chat in enumerate(chats):
-                            st.text(f"Requete :adult: #{i}: {chat['request']}")
-                            st.text(f"Reponse :female-doctor: #{i}: {chat['response']}")
+                            st.write(f"Requete :adult: #{i}: {chat['request']}")
+                            st.write(f"Reponse :female-doctor: #{i}: {chat['response']}")
                             st.divider()
 
 
